@@ -29,30 +29,96 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <style type="text/css">
+        /* http://meyerweb.com/eric/tools/css/reset/ 
+           v2.0 | 20110126
+           License: none (public domain)
+        */
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
         *, *:before, *:after {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #62C2CC;
+        }
+        h1 {
+            text-align: center;
+            margin: 25px;
+            font-size: 40px;
+            font-family: sans-serif;
+            color: #EEF66C;
+        }
+        img {
+            padding: 10px;
         }
         .slideshow {
             width: 100%;
-            max-width: 1200px;
+            max-width: 980px;
             text-align: center;
-            background-color: aquamarine;
+            background-color: #EEF66C;
+            margin: 0 auto;
+            padding-top: 10px;
+            padding-bottom: 5px;
+            margin-bottom: 50px;
         }
     </style>      
 </head>
 
 <body>
+    <h1>Django with TinyPNG Optimization</h1>
     <div class="slideshow">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
-        <img src="http://placekitten.com/300/300">
+        <a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a>
     </div>
   <!--script src="js/scripts.js"></script-->
+  <script type="text/javascript">
+    $(document).ready(function() {
+        console.log('hi');
+        $(".fancybox").fancybox();
+    });
+  </script>
 </body>
 </html>
