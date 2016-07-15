@@ -1,23 +1,38 @@
 from django.db import models
 
-# Create your models here.
+from .fields import OptimizedImageField
 
 
 class BlogPostOrSomething(models.Model):
     title = models.CharField(max_length=255)
-    image1 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image2 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image3 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image4 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image5 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image6 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image7 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image8 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image9 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image10 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image11 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image12 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image13 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image14 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image15 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
-    image16 = models.ImageField(blank=True, null=True, upload_to='optimized-images/')
+    image1 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image2 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image3 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image4 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image5 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image6 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image7 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image8 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image9 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image10 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image11 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image12 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image13 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image14 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image15 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+    image16 = OptimizedImageField(blank=True, null=True, upload_to='optimized-images/')
+
+
+
+
+
+
+class OptimizedNotOptimized(models.Model):
+    instance_model = models.CharField(max_length=100)
+    instance_pk = models.IntegerField()
+    field_name = models.CharField(max_length=100)
+    url = models.URLField()
+    optimized_url = models.URLField()
+
+    def __str__(self):
+        return "{} pk {} optimized field {}".format(self.instance_model, self.instance_pk, self.field_name)

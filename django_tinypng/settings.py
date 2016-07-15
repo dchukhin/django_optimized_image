@@ -131,3 +131,12 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
+
+# TinyPNG key
+TINYPNG_KEY = os.environ.get('TINYPNG_KEY')
+
+# S3 Settings
+S3_KEY_ID = os.environ.get('S3_KEY_ID')
+S3_ACCESS_KEY = os.environ.get('S3_ACCESS_KEY')
+S3_REGION = os.environ.get('S3_REGION')
+S3_BUCKET = os.environ.get('S3_BUCKET')
