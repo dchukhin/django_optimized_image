@@ -9,22 +9,22 @@
     <meta name="author" content="Caktus Group LLC">
 
     <!-- Add jQuery library -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
 
     <!-- Add mousewheel plugin (this is optional) -->
-    <script type="text/javascript" src="/static/js/lib/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script type="text/javascript" src="//s3.amazonaws.com/caktus-tinypng/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 
     <!-- Add fancyBox -->
-    <link rel="stylesheet" href="/static/js/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-    <script type="text/javascript" src="/static/js/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <link rel="stylesheet" href="//s3.amazonaws.com/caktus-tinypng/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="//s3.amazonaws.com/caktus-tinypng/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
     <!-- Optionally add helpers - button, thumbnail and/or media -->
-    <link rel="stylesheet" href="/static/js/lib/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
-    <script type="text/javascript" src="/static/js/lib/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-    <script type="text/javascript" src="/static/js/lib/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+    <link rel="stylesheet" href="//s3.amazonaws.com/caktus-tinypng/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="//s3.amazonaws.com/caktus-tinypng/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <script type="text/javascript" src="//s3.amazonaws.com/caktus-tinypng/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
 
-    <link rel="stylesheet" href="/static/js/lib/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
-    <script type="text/javascript" src="/static/js/lib/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <link rel="stylesheet" href="//s3.amazonaws.com/caktus-tinypng/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+    <script type="text/javascript" src="//s3.amazonaws.com/caktus-tinypng/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -95,6 +95,9 @@
         img {
             padding: 10px;
         }
+        a {
+            text-decoration: none;
+        }
         .slideshow {
             width: 100%;
             max-width: 980px;
@@ -105,19 +108,57 @@
             padding-bottom: 5px;
             margin-bottom: 50px;
         }
+        .image {
+            display: inline-block;
+            background-repeat: no-repeat;
+            width: 300px;
+            background-size: cover;
+            height: 300px;
+            background-position: center center;
+            margin-bottom: 10px;
+        }
     </style>      
 </head>
 
 <body>
     <h1>Django with TinyPNG Optimization</h1>
     <div class="slideshow">
-        <a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a><a class="fancybox" href="http://placekitten.com/800/500"><img src="http://placekitten.com/300"></a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/400/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/500/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/200/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/600/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/800/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/700/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/900/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/100/300/cat')"></div>
+        </a>
+        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
+            <div class="image" style="background-image: url('http://loremflickr.com/300/300/cat')"></div>
+        </a>
+
     </div>
   <!--script src="js/scripts.js"></script-->
   <script type="text/javascript">
     $(document).ready(function() {
         console.log('hi');
-        $(".fancybox").fancybox();
+        $(".fancybox").fancybox({
+
+        });
     });
   </script>
 </body>
