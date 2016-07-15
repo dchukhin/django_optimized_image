@@ -3,5 +3,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^optimized$', views.index, name='optimized_index'),
+    url(r'^not_optimized$', views.index, name='not_optimized_index'),
 ]
