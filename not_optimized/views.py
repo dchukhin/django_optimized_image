@@ -1,5 +1,15 @@
 from django.shortcuts import render
 
+from optimized.models import OptimizedNotOptimized
+
+from .models import BlogPostOrSomething
+
 
 def index(request):
-    return render(request, 'not_optimized/index.html')
+    return render(
+        request,
+        'optimized/index.html',
+        {'the_models': BlogPostOrSomething.objects.all(),
+         'image_urls': OptimizedNotOptimized.objects.all()
+        }
+    )
