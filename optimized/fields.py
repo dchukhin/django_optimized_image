@@ -6,10 +6,6 @@ from django.db.models import ImageField
 
 class OptimizedImageField(ImageField):
     """An ImageField that gets optimized on save() using tinyPNG."""
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.optimized_url = ''
-
     def pre_save(self, model_instance, add):
         """Optimize the image being saved and create an instance in db linking to the image."""
         image_file = getattr(model_instance, self.name)
