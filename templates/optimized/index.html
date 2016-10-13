@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!doctype html>
 
 <html lang="en">
@@ -29,7 +31,7 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <style type="text/css">
-        /* http://meyerweb.com/eric/tools/css/reset/ 
+        /* http://meyerweb.com/eric/tools/css/reset/
            v2.0 | 20110126
            License: none (public domain)
         */
@@ -43,8 +45,8 @@
         dl, dt, dd, ol, ul, li,
         fieldset, form, label, legend,
         table, caption, tbody, tfoot, thead, tr, th, td,
-        article, aside, canvas, details, embed, 
-        figure, figcaption, footer, header, hgroup, 
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
         menu, nav, output, ruby, section, summary,
         time, mark, audio, video {
             margin: 0;
@@ -55,7 +57,7 @@
             vertical-align: baseline;
         }
         /* HTML5 display-role reset for older browsers */
-        article, aside, details, figcaption, figure, 
+        article, aside, details, figcaption, figure,
         footer, header, hgroup, menu, nav, section {
             display: block;
         }
@@ -117,41 +119,21 @@
             background-position: center center;
             margin-bottom: 10px;
         }
-    </style>      
+    </style>
 </head>
 
 <body>
     <h1>Django with TinyPNG Optimization</h1>
-    <div class="slideshow">
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/400/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/500/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/200/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/600/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/800/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/700/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/900/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/100/300/cat')"></div>
-        </a>
-        <a class="fancybox" rel="gallery1" href="http://farm2.staticflickr.com/1617/24108587812_6c9825d0da_b.jpg">
-            <div class="image" style="background-image: url('http://loremflickr.com/300/300/cat')"></div>
+      <div class="slideshow">
+
+      {% for photo in image_urls %}
+        <a class="fancybox" rel="gallery1" href="{{ photo.optimized_url }}">
+          <div class="image" style="background-image: url('{{ photo.optimized_url }}')"></div>
         </a>
 
+      {% endfor %}
     </div>
+
   <!--script src="js/scripts.js"></script-->
   <script type="text/javascript">
     $(document).ready(function() {
