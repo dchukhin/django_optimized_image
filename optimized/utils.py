@@ -1,3 +1,5 @@
+import sys
+
 from django.apps import apps
 
 from .fields import OptimizedImageField, save_to_s3
@@ -16,7 +18,7 @@ def get_optimized_url(model_instance, field_name):
     return ''
 
 
-def optimize_legacy_images_in_model_fields(list_of_models):
+def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
     """
     Call this function to go through models and optimize images.
 
@@ -28,18 +30,35 @@ def optimize_legacy_images_in_model_fields(list_of_models):
     use this function wisely.
     """
     for model in list_of_models:
+        if verbosity == 1:
+            sys.stdout.write('\nOptimizing for model: {}'.format(model))
+
         field_names_to_optimize = []
         for field in model._meta.get_fields():
             if type(field) == OptimizedImageField:
                 field_names_to_optimize.append(field.attname)
+
+        if verbosity == 1:
+            sys.stdout.write('\nWill check the following fields: {}'.format(field_names_to_optimize))
+
         model_instances = model.objects.all()
         for model_instance in model_instances:
             for field_name in field_names_to_optimize:
+                if verbosity == 1:
+                    sys.stdout.write('\nChecking for instance {} field {}'.format(model_instance, field_name))
+
                 # If the instance's field has an image, but an optimized_url
                 # equal to the empty string, optimize the image in that field
                 image_file = getattr(model_instance, field_name)
                 if image_file.name not in [None, ''] and getattr(model_instance, field_name).optimized_url == '':
+                    if verbosity == 1:
+                        sys.stdout.write('\nNo optimized image found. Optimizing.')
+
                     s3_response = save_to_s3(image_file)
+
+                    if verbosity == 1:
+                        sys.stdout.write('\nOptimized and saved to S3. Saving record to DB.')
+
                     # Add checking in here?
                     new_object, created = OptimizedNotOptimized.objects.get_or_create(
                         instance_model=model_instance._meta.label,
@@ -49,3 +68,5 @@ def optimize_legacy_images_in_model_fields(list_of_models):
                     new_object.url = image_file.name
                     new_object.optimized_url = s3_response.location
                     new_object.save()
+                    if verbosity == 1:
+                        sys.stdout.write('\nOptimized and saved to S3, and saved record to DB.')
