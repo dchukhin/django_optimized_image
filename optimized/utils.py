@@ -45,7 +45,7 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
         for model_instance in model_instances:
             for field_name in field_names_to_optimize:
                 if verbosity == 1:
-                    sys.stdout.write('\nChecking for instance {} field {}'.format(model_instance, field_name))
+                    sys.stdout.write('\nChecking for instance id {} field {}'.format(model_instance.pk, field_name))
 
                 # If the instance's field has an image, but an optimized_url
                 # equal to the empty string, optimize the image in that field
