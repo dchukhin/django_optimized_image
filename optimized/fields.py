@@ -12,21 +12,11 @@ class OptimizedImageField(ImageField):
         # Has this image been saved?
         if not image_file._committed:
             # The image is being saved now, so we optimize it
-
-            tinify.key = settings.TINYPNG_KEY
-            source = tinify.from_file(image_file)
-            # Save to s3
-            s3_response = source.store(
-                service="s3",
-                aws_access_key_id=settings.S3_KEY_ID,
-                aws_secret_access_key=settings.S3_ACCESS_KEY,
-                region=settings.S3_REGION,
-                path="{}/optimized_images/{}".format(settings.S3_BUCKET, image_file.name)
-            )
+            s3_response = save_to_s3(image_file)
 
             # Add checking in here?
             from optimized.models import OptimizedNotOptimized
-            new_object = OptimizedNotOptimized(
+            new_object, created = OptimizedNotOptimized.objects.update_or_create(
                 instance_model=model_instance._meta.label,
                 instance_pk=model_instance.pk,
                 field_name=self.name,
@@ -35,3 +25,16 @@ class OptimizedImageField(ImageField):
             )
             new_object.save()
         return super().pre_save(model_instance, add)
+
+def save_to_s3(image_file):
+    tinify.key = settings.TINYPNG_KEY
+    source = tinify.from_file(image_file)
+    # Save to s3
+    s3_response = source.store(
+        service="s3",
+        aws_access_key_id=settings.S3_KEY_ID,
+        aws_secret_access_key=settings.S3_ACCESS_KEY,
+        region=settings.S3_REGION,
+        path="{}/optimized_images/{}".format(settings.S3_BUCKET, image_file.name)
+    )
+    return s3_response
