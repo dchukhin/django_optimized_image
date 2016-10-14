@@ -15,7 +15,7 @@ class OptimizedImageField(ImageField):
             s3_response = save_to_s3(image_file)
 
             # Add checking in here?
-            from optimized.models import OptimizedNotOptimized
+            from .models import OptimizedNotOptimized
             new_object, created = OptimizedNotOptimized.objects.update_or_create(
                 instance_model=model_instance._meta.label,
                 instance_pk=model_instance.pk,
@@ -35,6 +35,9 @@ def save_to_s3(image_file):
         aws_access_key_id=settings.S3_KEY_ID,
         aws_secret_access_key=settings.S3_ACCESS_KEY,
         region=settings.S3_REGION,
-        path="{}/optimized_images/{}".format(settings.S3_BUCKET, image_file.name)
+        path="{}/{}{}".format(
+            settings.S3_BUCKET,
+            settings.S3_OPTIMIZED_IMAGES_FOLDER,
+            image_file.name)
     )
     return s3_response

@@ -143,3 +143,4 @@ S3_KEY_ID = os.environ.get('S3_KEY_ID')
 S3_ACCESS_KEY = os.environ.get('S3_ACCESS_KEY')
 S3_REGION = os.environ.get('S3_REGION')
 S3_BUCKET = os.environ.get('S3_BUCKET')
+S3_OPTIMIZED_IMAGES_FOLDER = 'optimized_images/' # Make sure there is a '/' at the end
