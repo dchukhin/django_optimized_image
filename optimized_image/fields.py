@@ -37,13 +37,13 @@ class OptimizedImageFieldFile(ImageFieldFile):
             instance_pk=self.instance.pk,
             field_name=self.field.attname,
         )
-        new_name = getattr(self.instance, self.field.attname).field.upload_to + content.name
 
-        s3_response = save_to_s3(content.file, new_name)
-        # Set the new_object url and optimized_url
-        new_object.url = content.url
-        new_object.optimized_url = s3_response.location
-        new_object.save()
+        if created or not new_object.url.endswith(content.file.name):
+            s3_response = save_to_s3(content.file, content.name)
+            # Set the new_object url and optimized_url
+            new_object.url = content.url
+            new_object.optimized_url = s3_response.location
+            new_object.save()
 
 
 class OptimizedImageField(ImageField):
@@ -107,7 +107,7 @@ def save_to_s3(image_file, image_name):
                 settings.S3_OPTIMIZED_IMAGES_FOLDER,
                 image_name)
         )
-    except tinify.errors.ServerError as tinify_error:
+    except tinify.errors.Error as tinify_error:
         class s3response(object):
             height = 0
             width = 0
