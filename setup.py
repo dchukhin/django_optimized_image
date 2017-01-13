@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-optimized-image',
-    version='0.0.1',
+    version='0.0.2',
     packages=find_packages(),
     include_package_data=True,
     license='BSD License',
@@ -17,7 +17,7 @@ setup(
     long_description=README,
     install_requires=['tinify'],
     url='https://github.com/dchukhin/django_tinypng',
-    download_url='https://github.com/dchukhin/django_tinypng/tarball/0.0.1',
+    download_url='https://github.com/dchukhin/django_tinypng/tarball/0.0.2',
     author='Dmitriy Chukhin',
     author_email='dchukhin@caktusgroup.com',
     keywords=['django', 'image', 'optimize', 'imagefield'],
