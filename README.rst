@@ -1,8 +1,8 @@
-===============
-Optimized-image
-===============
+======================
+django-optimized-image
+======================
 
-Optimized-image is a simple Django library to allows optimization
+django-optimized-image is a simple Django library to allows optimization
 of images by using TinyPNG. Saving an image locally to an
 OptimizedImageField uses TinyPNG to optimize the image, then S3
 to store it.

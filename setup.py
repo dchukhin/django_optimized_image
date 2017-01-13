@@ -8,7 +8,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='optimized-image',
+    name='django-optimized-image',
     version='0.0.1',
     packages=find_packages(),
     include_package_data=True,
@@ -16,9 +16,11 @@ setup(
     description='A simple Django app that allows for optimization of images.',
     long_description=README,
     install_requires=['tinify'],
-    url='https://www.example.com/',
-    author='My Name',
-    author_email='yourname@example.com',
+    url='https://github.com/dchukhin/django_tinypng',
+    download_url='https://github.com/dchukhin/django_tinypng/tarball/0.0.1',
+    author='Dmitriy Chukhin',
+    author_email='dchukhin@caktusgroup.com',
+    keywords=['django', 'image', 'optimize', 'imagefield'],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
