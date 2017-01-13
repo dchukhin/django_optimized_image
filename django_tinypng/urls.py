@@ -23,4 +23,4 @@ urlpatterns = [
     url(r'^', include('optimized.urls')),
     url(r'^', include('not_optimized.urls')),
     url(r'^admin/', admin.site.urls),
-]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
