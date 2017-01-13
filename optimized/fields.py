@@ -9,7 +9,6 @@ class OptimizedImageFieldFile(ImageFieldFile):
 
     @property
     def optimized_url(self):
-        self._require_file()
         from .utils import get_optimized_url
         return get_optimized_url(self.instance, self.field.name)
 
@@ -26,30 +25,9 @@ class OptimizedImageFieldFile(ImageFieldFile):
             optimized_data_obj[0].delete()
 
 
-
 class OptimizedImageField(ImageField):
     """An ImageField that gets optimized on save() using tinyPNG."""
     attr_class = OptimizedImageFieldFile
-
-    def pre_save(self, model_instance, add):
-        """Optimize the image being saved and create an instance in db linking to the image."""
-        image_file = getattr(model_instance, self.name)
-        # Has this image been saved?
-        if not image_file._committed:
-            # The image is being saved now, so we optimize it
-            s3_response = save_to_s3(image_file)
-
-            # Add checking in here?
-            from .models import OptimizedNotOptimized
-            new_object, created = OptimizedNotOptimized.objects.get_or_create(
-                instance_model=model_instance._meta.label,
-                instance_pk=model_instance.pk,
-                field_name=self.name,
-            )
-            new_object.url = getattr(model_instance, self.name)
-            new_object.optimized_url = s3_response.location
-            new_object.save()
-        return super().pre_save(model_instance, add)
 
     def save_form_data(self, instance, data):
         """Remove the OptimizedNotOptimized object on clearing the image."""
@@ -63,9 +41,37 @@ class OptimizedImageField(ImageField):
             )
             if optimized_data_obj.exists():
                 optimized_data_obj[0].delete()
+
+        # Are we updating an image?
+        updating_image = True if data and getattr(instance, self.name) != data else False
+
         super().save_form_data(instance, data)
 
-def save_to_s3(image_file):
+        # Now that the save has occurred, optimize the image (if necessary)
+        if updating_image:
+            image_file = getattr(instance, self.name)
+            # Update the image_file to have the correct name
+            new_name = getattr(instance, self.name).field.upload_to + image_file.name
+            image_file.name = new_name
+
+            # Optimize the image
+            s3_response = save_to_s3(data, new_name)
+
+            # The OptimizedNotOptimized object
+            # TODO: Add checking in here?
+            from .models import OptimizedNotOptimized
+            new_object, created = OptimizedNotOptimized.objects.get_or_create(
+                instance_model=instance._meta.label,
+                instance_pk=instance.pk,
+                field_name=self.name,
+            )
+            # Set the new_object url and optimized_url
+            new_object.url = image_file.url
+            new_object.optimized_url = s3_response.location
+            new_object.save()
+
+
+def save_to_s3(image_file, image_name):
     tinify.key = settings.TINYPNG_KEY
     source = tinify.from_file(image_file)
     # Save to s3
@@ -77,6 +83,6 @@ def save_to_s3(image_file):
         path="{}/{}{}".format(
             settings.S3_BUCKET,
             settings.S3_OPTIMIZED_IMAGES_FOLDER,
-            image_file.name)
+            image_name)
     )
     return s3_response
