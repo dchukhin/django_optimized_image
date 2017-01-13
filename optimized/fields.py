@@ -24,6 +24,27 @@ class OptimizedImageFieldFile(ImageFieldFile):
         if optimized_data_obj.exists():
             optimized_data_obj[0].delete()
 
+    def save(self, name, content, save=True):
+        """Update the OptimizedNotOptimized object every time an image is saved."""
+        from optimized.models import OptimizedNotOptimized
+        super().save(name, content, save)
+
+        self.instance.save()
+
+        # Create an OptimizedNotOptimized object for this image
+        new_object, created = OptimizedNotOptimized.objects.get_or_create(
+            instance_model=self.instance._meta.label,
+            instance_pk=self.instance.pk,
+            field_name=self.field.attname,
+        )
+        new_name = getattr(self.instance, self.field.attname).field.upload_to + content.name
+
+        s3_response = save_to_s3(content.file, new_name)
+        # Set the new_object url and optimized_url
+        new_object.url = content.url
+        new_object.optimized_url = s3_response.location
+        new_object.save()
+
 
 class OptimizedImageField(ImageField):
     """An ImageField that gets optimized on save() using tinyPNG."""
@@ -33,7 +54,7 @@ class OptimizedImageField(ImageField):
         """Remove the OptimizedNotOptimized object on clearing the image."""
         from .models import OptimizedNotOptimized
         # If we are clearing the image
-        if data == False:
+        if data is False:
             optimized_data_obj = OptimizedNotOptimized.objects.filter(
                 instance_model=instance._meta.label,
                 instance_pk=instance.pk,
@@ -73,16 +94,25 @@ class OptimizedImageField(ImageField):
 
 def save_to_s3(image_file, image_name):
     tinify.key = settings.TINYPNG_KEY
-    source = tinify.from_file(image_file)
-    # Save to s3
-    s3_response = source.store(
-        service="s3",
-        aws_access_key_id=settings.S3_KEY_ID,
-        aws_secret_access_key=settings.S3_ACCESS_KEY,
-        region=settings.S3_REGION,
-        path="{}/{}{}".format(
-            settings.S3_BUCKET,
-            settings.S3_OPTIMIZED_IMAGES_FOLDER,
-            image_name)
-    )
+    try:
+        source = tinify.from_file(image_file)
+        # Save to s3
+        s3_response = source.store(
+            service="s3",
+            aws_access_key_id=settings.S3_KEY_ID,
+            aws_secret_access_key=settings.S3_ACCESS_KEY,
+            region=settings.S3_REGION,
+            path="{}/{}{}".format(
+                settings.S3_BUCKET,
+                settings.S3_OPTIMIZED_IMAGES_FOLDER,
+                image_name)
+        )
+    except tinify.errors.ServerError as tinify_error:
+        class s3response(object):
+            height = 0
+            width = 0
+            location = ''
+            error = tinify_error
+        s3_response = s3response()
+        # s3_response = {'error:': error, 'location': ''}
     return s3_response
