@@ -38,7 +38,7 @@ class OptimizedImageFieldFile(ImageFieldFile):
             field_name=self.field.attname,
         )
 
-        if created or not new_object.url.endswith(content.file.name):
+        if created or not new_object.optimized_url.endswith(content.file.name):
             s3_response = save_to_s3(content.file, content.name)
             # Set the new_object url and optimized_url
             new_object.url = content.url
