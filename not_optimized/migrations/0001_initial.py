@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import optimized.fields
+import optimized_image.fields
 
 
 class Migration(migrations.Migration):
@@ -19,22 +19,22 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=255)),
-                ('image1', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image2', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image3', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image4', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image5', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image6', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image7', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image8', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image9', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image10', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image11', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image12', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image13', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image14', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image15', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
-                ('image16', optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image1', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image2', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image3', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image4', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image5', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image6', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image7', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image8', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image9', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image10', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image11', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image12', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image13', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image14', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image15', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
+                ('image16', optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images/')),
             ],
         ),
     ]

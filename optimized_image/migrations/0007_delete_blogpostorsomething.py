@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('optimized', '0006_auto_20160715_1913'),
+        ('optimized_image', '0006_auto_20160715_1913'),
     ]
 
     operations = [

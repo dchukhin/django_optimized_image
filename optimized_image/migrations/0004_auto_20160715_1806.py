@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('optimized', '0003_optimizednotoptimized'),
+        ('optimized_image', '0003_optimizednotoptimized'),
     ]
 
     operations = [
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='optimizednotoptimized',
             name='instance_model',
-            field=models.CharField(default='optimized.BlogPostOrSomething', max_length=100),
+            field=models.CharField(default='optimized_image.BlogPostOrSomething', max_length=100),
             preserve_default=False,
         ),
     ]

@@ -1,7 +1,7 @@
 import factory
 import factory.fuzzy
 
-from optimized.fields import OptimizedImageField
+from optimized_image.fields import OptimizedImageField
 
 
 class OptimizedNotOptimizedFactory(factory.django.DjangoModelFactory):
@@ -12,7 +12,7 @@ class OptimizedNotOptimizedFactory(factory.django.DjangoModelFactory):
     optimized_url = factory.fuzzy.FuzzyText()
 
     class Meta:
-        model = 'optimized.OptimizedNotOptimized'
+        model = 'optimized_image.OptimizedNotOptimized'
 
 
 class GenericModelFactory(factory.django.DjangoModelFactory):

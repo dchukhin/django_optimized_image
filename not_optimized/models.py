@@ -1,6 +1,6 @@
 from django.db import models
 
-from optimized.fields import OptimizedImageField
+from optimized_image.fields import OptimizedImageField
 
 
 class BlogPostOrSomething(models.Model):

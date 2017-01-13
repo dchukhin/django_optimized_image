@@ -8,7 +8,7 @@ from . import factories
 class TestOptimizedImageField(TestCase):
     """Test case for the OptimizedImageField."""
 
-    @patch('optimized.fields.save_to_s3')
+    @patch('optimized_image.fields.save_to_s3')
     def test_save_creates_optimized_image(self, mock_save_to_s3):
         """Saving an image to an OptimizedImageField creates optimized image."""
         tinify_return_object = Mock()
@@ -20,7 +20,7 @@ class TestOptimizedImageField(TestCase):
             title='Generic Model',
             image=None
         )
-        from optimized.models import OptimizedNotOptimized
+        from optimized_image.models import OptimizedNotOptimized
 
         # So far there is no optimized image, and mock_save_to_s3 has not been called
         self.assertEqual(generic_model.image.name, None)

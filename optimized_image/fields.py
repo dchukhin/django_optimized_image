@@ -26,7 +26,7 @@ class OptimizedImageFieldFile(ImageFieldFile):
 
     def save(self, name, content, save=True):
         """Update the OptimizedNotOptimized object every time an image is saved."""
-        from optimized.models import OptimizedNotOptimized
+        from optimized_image.models import OptimizedNotOptimized
         super().save(name, content, save)
 
         self.instance.save()

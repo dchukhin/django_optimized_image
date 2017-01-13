@@ -3,94 +3,94 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import optimized.fields
+import optimized_image.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('optimized', '0001_initial'),
+        ('optimized_image', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image1',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image10',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image11',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image12',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image13',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image14',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image15',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image16',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image2',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image3',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image4',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image5',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image6',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image7',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image8',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
         migrations.AlterField(
             model_name='blogpostorsomething',
             name='image9',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='optimized-images/'),
         ),
     ]

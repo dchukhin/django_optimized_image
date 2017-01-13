@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import optimized.fields
+import optimized_image.fields
 
 
 class Migration(migrations.Migration):
@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='genericmodel',
             name='not_optimized_image',
-            field=optimized.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images'),
+            field=optimized_image.fields.OptimizedImageField(blank=True, null=True, upload_to='static/images'),
         ),
     ]

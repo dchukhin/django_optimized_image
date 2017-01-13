@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from optimized.models import OptimizedNotOptimized
+from optimized_image.models import OptimizedNotOptimized
 
 from .models import BlogPostOrSomething
 

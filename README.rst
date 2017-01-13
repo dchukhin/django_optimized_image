@@ -1,8 +1,8 @@
-==============
-Django-tinypng
-==============
+===============
+Optimized-image
+===============
 
-Django-tinypng is a simple Django library to allows optimization
+Optimized-image is a simple Django library to allows optimization
 of images by using TinyPNG. Saving an image locally to an
 OptimizedImageField uses TinyPNG to optimize the image, then S3
 to store it.
@@ -12,14 +12,14 @@ Detailed documentation is in the "docs" directory.
 Quick start
 -----------
 
-1. Add "optimized" to your INSTALLED_APPS setting like this::
+1. Add "optimized_image" to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
         ...
-        'optimized',
+        'optimized_image',
     ]
 
-2. Because django-tinypng uses TinyPNG and S3, you will need to
+2. Because optimized_image uses TinyPNG and S3, you will need to
    get API keys from each of them. Visit https://tinypng.com/developers
    and http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html
    for more details on getting a TinyPNG API key (easy) and setting
@@ -27,21 +27,21 @@ Quick start
    following settings to your settings file. Note: it is a good idea
    to keep most, if not all, of these secret::
 
-    TINYPNG_KEY # Go to 
-    S3_KEY_ID 
+    TINYPNG_KEY # Go to
+    S3_KEY_ID
     S3_ACCESS_KEY
     S3_REGION
     S3_BUCKET
     S3_OPTIMIZED_IMAGES_FOLDER
 
-3. Migrate the optimized models::
+3. Migrate the optimized_image models::
 
-    python manage.py migrate
+    python manage.py migrate optimized_image
 
 4. You may use the `OptimizedImageField` by importing it::
 
 
-    from optimized.fields import OptimizedImageField
+    from optimized_image.fields import OptimizedImageField
 
    and saving images into it, the same way you would to a Django `ImageField`.
 
@@ -49,21 +49,21 @@ Quick start
    for an instance of an object. For a blogpost with an ``image`` field that
    has had an image uploaded you may run::
 
-    from optimized.utils import get_optimized_url
+    from optimized_image.utils import get_optimized_url
     get_optimized_url(blogpost, ‘image’)
 
 6. If you want to change legacy models with Django's Image fields and
    optimize the images in those fields, you may do so for legacy models
    by passing a list of legacy model classes (not their instances) to
    the following function::
-   
-    from optimized.utils import optimize_legacy_images_in_model_fields
+
+    from optimized_image.utils import optimize_legacy_images_in_model_fields
     optimize_legacy_images_in_model_fields([LegacyModelClass1, LegacyModelClass2])
 
    Note: this function makes calls to TinyPNG and S3, so it can take a really
    long time, depending on how many images you have. You may pass in 1
    for the verbosity parameter to get logs on the progress::
-   
+
     optimize_legacy_images_in_model_fields([LegacyModelClass1, LegacyModelClass2], verbosity=1)
 
  Note about TinyPNG API keys: If you obtain the free TinyPNG API token, you are limited to 500
