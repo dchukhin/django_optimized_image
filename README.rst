@@ -19,33 +19,60 @@ Quick start
         'optimized_image',
     ]
 
-2. Because optimized_image uses TinyPNG and S3, you will need to
-   get API keys from each of them. Visit https://tinypng.com/developers
-   and http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html
-   for more details on getting a TinyPNG API key (easy) and setting
-   up an S3 bucket (harder). Once you have done so, add the
+2. Because optimized_image uses TinyPNG, you will need to get an API key from
+   TinyPNG. Visit https://tinypng.com/developers for more details on getting an
+   API key. When images are uploaded, you will also have the option to keep the
+   original (unoptimized) image. If you choose to do so, you will need to create
+   an S3 bucket to upload the optimized images to.  You may visit
+   http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html for more
+   information on setting up an S3 bucket. Once you have done so, add the
    following settings to your settings file. Note: it is a good idea
    to keep most, if not all, of these secret::
 
-    TINYPNG_KEY # Go to
-    S3_KEY_ID
-    S3_ACCESS_KEY
-    S3_REGION
-    S3_BUCKET
-    S3_OPTIMIZED_IMAGES_FOLDER
+    TINYPNG_KEY  # Required
+    S3_KEY_ID  # Required if you want to keep original (unoptimized) images
+    S3_ACCESS_KEY  # Required if you want to keep original (unoptimized) images
+    S3_REGION  # Required if you want to keep original (unoptimized) images
+    S3_BUCKET  # Required if you want to keep original (unoptimized) images
+    S3_OPTIMIZED_IMAGES_FOLDER  # Required if you want to keep original (unoptimized) images
 
 3. Migrate the optimized_image models::
 
     python manage.py migrate optimized_image
 
-4. You may use the `OptimizedImageField` by importing it::
+4. You may use the ``OptimizedImageField`` by importing it::
 
+
+    from django.db import models
 
     from optimized_image.fields import OptimizedImageField
 
-   and saving images into it, the same way you would to a Django `ImageField`.
 
-5. You may get an optimized url by using the `get_optimized_url` function
+    class MyModel(models.Model):
+        ...
+        image = OptimizedImageField()
+
+   and saving images into it, the same way you would to a Django ``ImageField``.
+
+   You may pass ``keep_original=True`` to the OptimizedImageField if you want to
+   keep the original (not optimized) images, as well as also having the
+   optimized images in the ``S3_OPTIMIZED_IMAGES_FOLDER``::
+
+
+    from django.db import models
+
+    from optimized_image.fields import OptimizedImageField
+
+
+    class MyModel(models.Model):
+        ...
+        image = OptimizedImageField(keep_original=True)
+
+   If you do not pass in the ``keep_original`` argument, it defaults to ``False``,
+   meaning that the original uploaded image will be overridden with the optimized
+   image.
+
+5. You may get an optimized url by using the ``get_optimized_url()`` function
    for an instance of an object. For a blogpost with an ``image`` field that
    has had an image uploaded you may run::
 

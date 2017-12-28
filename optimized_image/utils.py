@@ -8,6 +8,10 @@ from .models import OptimizedNotOptimized
 
 def get_optimized_url(model_instance, field_name):
     """Returns the optimized url for an instance of a model and a field name."""
+    # If the field did not keep the original image, then just return the url
+    if not getattr(model_instance, field_name).field.keep_original:
+        return getattr(model_instance, field_name).url
+
     optimized_data = OptimizedNotOptimized.objects.filter(
         instance_model=model_instance._meta.label,
         instance_pk=model_instance.pk,
