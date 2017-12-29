@@ -3,23 +3,6 @@ import sys
 from django.apps import apps
 
 from .fields import OptimizedImageField, save_to_s3
-from .models import OptimizedNotOptimized
-
-
-def get_optimized_url(model_instance, field_name):
-    """Returns the optimized url for an instance of a model and a field name."""
-    # If the field did not keep the original image, then just return the url
-    if not getattr(model_instance, field_name).field.keep_original:
-        return getattr(model_instance, field_name).url
-
-    optimized_data = OptimizedNotOptimized.objects.filter(
-        instance_model=model_instance._meta.label,
-        instance_pk=model_instance.pk,
-        field_name=getattr(model_instance, field_name).field.attname
-    )
-    if optimized_data.exists():
-        return optimized_data[0].optimized_url
-    return ''
 
 
 def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
@@ -62,15 +45,3 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
 
                     if verbosity == 1:
                         sys.stdout.write('\nOptimized and saved to S3. Saving record to DB.')
-
-                    # Add checking in here?
-                    new_object, created = OptimizedNotOptimized.objects.get_or_create(
-                        instance_model=model_instance._meta.label,
-                        instance_pk=model_instance.pk,
-                        field_name=field_name,
-                    )
-                    new_object.url = image_file.name
-                    new_object.optimized_url = s3_response.location
-                    new_object.save()
-                    if verbosity == 1:
-                        sys.stdout.write('\nOptimized and saved to S3, and saved record to DB.')

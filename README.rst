@@ -53,33 +53,10 @@ Quick start
         image = OptimizedImageField()
 
    and saving images into it, the same way you would to a Django ``ImageField``.
+   The optimized image will be saved into the ``url`` field in place of the
+   unoptimized image.
 
-   You may pass ``keep_original=True`` to the OptimizedImageField if you want to
-   keep the original (not optimized) images, as well as also having the
-   optimized images in the ``S3_OPTIMIZED_IMAGES_FOLDER``::
-
-
-    from django.db import models
-
-    from optimized_image.fields import OptimizedImageField
-
-
-    class MyModel(models.Model):
-        ...
-        image = OptimizedImageField(keep_original=True)
-
-   If you do not pass in the ``keep_original`` argument, it defaults to ``False``,
-   meaning that the original uploaded image will be overridden with the optimized
-   image.
-
-5. You may get an optimized url by using the ``get_optimized_url()`` function
-   for an instance of an object. For a blogpost with an ``image`` field that
-   has had an image uploaded you may run::
-
-    from optimized_image.utils import get_optimized_url
-    get_optimized_url(blogpost, ‘image’)
-
-6. If you want to change legacy models with Django's Image fields and
+5. If you want to change legacy models with Django's Image fields and
    optimize the images in those fields, you may do so for legacy models
    by passing a list of legacy model classes (not their instances) to
    the following function::
