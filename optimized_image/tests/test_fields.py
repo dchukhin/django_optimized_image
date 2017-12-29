@@ -15,7 +15,6 @@ class TestOptimizedImageField(TestCase):
         tinify_return_object.location = 'https://s3.amazonaws.com/testutils/optimized_images/image.png'
         mock_save_to_s3.return_value = tinify_return_object
 
-        # import ipdb; ipdb.set_trace()
         generic_model = factories.GenericModelFactory(
             title='Generic Model',
             image=None
@@ -24,7 +23,6 @@ class TestOptimizedImageField(TestCase):
 
         # So far there is no optimized image, and mock_save_to_s3 has not been called
         self.assertEqual(generic_model.image.name, None)
-        self.assertEqual(generic_model.image.optimized_url, '')
         self.assertEqual(mock_save_to_s3.call_count, 0)
 
         import io
@@ -35,12 +33,6 @@ class TestOptimizedImageField(TestCase):
         generic_model.image = new_file
         generic_model.save()
 
-        # Now generic_model.image has an optimized_url
         self.assertNotEqual(generic_model.image.name, None)
-        self.assertEqual(generic_model.image.optimized_url, mock_save_to_s3.return_value.location)
         # The mock_save_to_s3 has been called once
         self.assertEqual(mock_save_to_s3.call_count, 1)
-
-    # TODO: also test the OptimizedImageFieldFile things:
-    #   - optimized_url field
-    #   - delete() deletes the OptimizedNotOptimized object

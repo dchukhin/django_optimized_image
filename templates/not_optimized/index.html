@@ -127,8 +127,8 @@
       <div class="slideshow">
 
       {% for photo in image_urls %}
-        <a class="fancybox" rel="gallery1" href="{{ photo.optimized_url }}">
-          <div class="image" style="background-image: url('{{ photo.optimized_url }}')"></div>
+        <a class="fancybox" rel="gallery1" href="{{ photo.url }}">
+          <div class="image" style="background-image: url('{{ photo.url }}')"></div>
         </a>
 
       {% endfor %}

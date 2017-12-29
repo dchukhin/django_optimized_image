@@ -9,7 +9,6 @@ class OptimizedNotOptimizedFactory(factory.django.DjangoModelFactory):
     instance_pk = factory.fuzzy.FuzzyInteger(low=1)
     field_name = factory.fuzzy.FuzzyText(length=8)
     url = factory.fuzzy.FuzzyText()
-    optimized_url = factory.fuzzy.FuzzyText()
 
     class Meta:
         model = 'optimized_image.OptimizedNotOptimized'

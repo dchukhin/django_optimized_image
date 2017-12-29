@@ -12,9 +12,8 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
     This is best done after changing your model fields from ImageField to
     OptimizedImageField, and migrating the models. This function goes through
     the list_of_models in the params, finds all of their OptimizedImageFields,
-    and optimizes any that don't currently have a value for optimized_url.
-    Note: there is a 500 image/month limit on a free TinyPNG API key, so
-    use this function wisely.
+    and optimizes the images in those fields. Note: there is a 500 image/month
+    limit on a free TinyPNG API key, so use this function wisely.
     """
     for model in list_of_models:
         if verbosity == 1:
@@ -34,12 +33,11 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
                 if verbosity == 1:
                     sys.stdout.write('\nChecking for instance id {} field {}'.format(model_instance.pk, field_name))
 
-                # If the instance's field has an image, but an optimized_url
-                # equal to the empty string, optimize the image in that field
+                # If the instance's field has an image, optimize it
                 image_file = getattr(model_instance, field_name)
-                if image_file.name not in [None, ''] and getattr(model_instance, field_name).optimized_url == '':
+                if image_file.name not in [None, '']:
                     if verbosity == 1:
-                        sys.stdout.write('\nNo optimized image found. Optimizing.')
+                        sys.stdout.write('\nImage found. Optimizing.')
 
                     s3_response = save_to_s3(image_file)
 
