@@ -43,3 +43,8 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
 
                     if verbosity == 1:
                         sys.stdout.write('\nOptimized and saved to S3. Saving record to DB.')
+
+
+def is_testing_mode():
+    """Return True if currently running tests."""
+    return True if 'test' in sys.argv else False
