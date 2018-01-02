@@ -19,7 +19,7 @@ class OptimizedImageField(ImageField):
 def optimize_from_buffer(data):
     """Optimize an image that has not been saved to a file."""
     from .utils import is_testing_mode
-    if not is_testing_mode:
+    if not is_testing_mode():
         tinify.key = settings.TINYPNG_KEY
         optimized_buffer = tinify.from_buffer(data.file.read()).to_buffer()
         data.seek(0)
