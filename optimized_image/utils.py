@@ -2,7 +2,7 @@ import sys
 
 from django.apps import apps
 
-from .fields import OptimizedImageField, save_to_s3
+from .fields import OptimizedImageField
 
 
 def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
@@ -39,10 +39,8 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
                     if verbosity == 1:
                         sys.stdout.write('\nImage found. Optimizing.')
 
-                    s3_response = save_to_s3(image_file)
-
                     if verbosity == 1:
-                        sys.stdout.write('\nOptimized and saved to S3. Saving record to DB.')
+                        sys.stdout.write('\nOptimized and saved image.')
 
 
 def is_testing_mode():

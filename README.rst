@@ -21,20 +21,10 @@ Quick start
 
 2. Because optimized_image uses TinyPNG, you will need to get an API key from
    TinyPNG. Visit https://tinypng.com/developers for more details on getting an
-   API key. When images are uploaded, you will also have the option to keep the
-   original (unoptimized) image. If you choose to do so, you will need to create
-   an S3 bucket to upload the optimized images to.  You may visit
-   http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html for more
-   information on setting up an S3 bucket. Once you have done so, add the
-   following settings to your settings file. Note: it is a good idea
-   to keep most, if not all, of these secret::
+   API key. Once you have done so, add the following setting to your settings
+   file. Note: it is a good idea to keep this secret::
 
     TINYPNG_KEY  # Required
-    S3_KEY_ID  # Required if you want to keep original (unoptimized) images
-    S3_ACCESS_KEY  # Required if you want to keep original (unoptimized) images
-    S3_REGION  # Required if you want to keep original (unoptimized) images
-    S3_BUCKET  # Required if you want to keep original (unoptimized) images
-    S3_OPTIMIZED_IMAGES_FOLDER  # Required if you want to keep original (unoptimized) images
 
 3. Migrate the optimized_image models::
 

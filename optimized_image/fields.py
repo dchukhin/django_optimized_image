@@ -26,38 +26,3 @@ def optimize_from_buffer(data):
         data.file.write(optimized_buffer)
         data.file.truncate()
     return data
-
-
-def save_to_s3(image_file, image_name):
-    from .utils import is_testing_mode
-    if not is_testing_mode:
-        try:
-            tinify.key = settings.TINYPNG_KEY
-            source = tinify.from_file(image_file)
-            # Save to s3
-            s3_response = source.store(
-                service="s3",
-                aws_access_key_id=settings.S3_KEY_ID,
-                aws_secret_access_key=settings.S3_ACCESS_KEY,
-                region=settings.S3_REGION,
-                path="{}/{}{}".format(
-                    settings.S3_BUCKET,
-                    settings.S3_OPTIMIZED_IMAGES_FOLDER,
-                    image_name)
-            )
-        except tinify.errors.Error as tinify_error:
-            class s3response(object):
-                height = 0
-                width = 0
-                location = ''
-                error = tinify_error
-            s3_response = s3response()
-            # s3_response = {'error:': error, 'location': ''}
-    else:
-        class s3response(object):
-            height = image_file.height
-            width = image_file.width
-            location = image_file.name
-            error = ''
-        s3_response = s3response()
-    return s3_response
