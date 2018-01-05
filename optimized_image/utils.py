@@ -1,8 +1,34 @@
+from io import BytesIO
+from PIL import Image
 import sys
+import tinify
 
-from django.apps import apps
+from django.conf import settings
 
 from .fields import OptimizedImageField
+
+
+def optimize_from_buffer(data):
+    """Optimize an image that has not been saved to a file."""
+    if not is_testing_mode():
+        if settings.OPTIMIZED_IMAGE_METHOD == 'pillow':
+            image = Image.open(data)
+            bytes_io = BytesIO()
+            if data.name.split('.')[-1].lower() != 'jpg':
+                extension = data.name.split('.')[-1].upper()
+            else:
+                extension = 'JPEG'
+            image.save(bytes_io, format=extension, optimize=True)
+            data.seek(0)
+            data.file.write(bytes_io.getvalue())
+            data.file.truncate()
+        elif settings.OPTIMIZED_IMAGE_METHOD == 'tinypng':
+            tinify.key = settings.TINYPNG_KEY
+            optimized_buffer = tinify.from_buffer(data.file.read()).to_buffer()
+            data.seek(0)
+            data.file.write(optimized_buffer)
+            data.file.truncate()
+    return data
 
 
 def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
