@@ -2,10 +2,8 @@
 django_optimized_image
 ======================
 
-django_optimized_image is a simple Django library to allows optimization
-of images by using TinyPNG. Saving an image locally to an
-OptimizedImageField uses TinyPNG to optimize the image, then S3
-to store it.
+django_optimized_image is a simple Django library that allows optimization
+of images by using `TinyPNG <https://tinypng.com/>`_ or `Pillow <pillow.readthedocs.io/>`_.
 
 Detailed documentation is in the "docs" directory.
 
@@ -19,12 +17,24 @@ Quick start
         'optimized_image',
     ]
 
-2. Because optimized_image uses TinyPNG, you will need to get an API key from
+2. You have the option to use either TinyPNG or Pillow for optimizing images.
+   Inform ``optimized_image`` which one you want to use by setting the following::
+
+    # To use Pillow
+    OPTIMIZED_IMAGE_METHOD = 'pillow'
+    # To use TinyPNG
+    OPTIMIZED_IMAGE_METHOD = 'tinypng'
+
+   Any other string that is set for this setting will mean that optimization does
+   not occur. If you are unsure of whether you would like to use TinyPNG or Pillow,
+   feel free to consult the documentation of each.
+
+   If you choose to use TinyPNG, you will need to get an API key from
    TinyPNG. Visit https://tinypng.com/developers for more details on getting an
    API key. Once you have done so, add the following setting to your settings
    file. Note: it is a good idea to keep this secret::
 
-    TINYPNG_KEY  # Required
+    TINYPNG_KEY
 
 3. Migrate the optimized_image models::
 
