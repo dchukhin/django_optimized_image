@@ -67,3 +67,45 @@ class TestOptimizedImageField(TestCase):
         # Now the mock_optimize_from_buffer has been called once
         self.assertEqual(mock_optimize_from_buffer.call_count, 1)
         self.assertEqual(mock_optimize_from_buffer.call_args[0][0], new_file)
+
+    @patch('optimized_image.utils.optimize_from_buffer')
+    def test_save_form_data_no_update(self, mock_optimize_from_buffer):
+        """
+        Calling save_form_data() on OptimizedImageField, but not saving new image.
+
+        This test verifies that the expected functionality of a regular Django
+        ImageField still exists, now that we've added customization.
+        """
+        generic_model = factories.GenericModelFactory(title='Generic Model')
+
+        with self.subTest('Has image, but not updating the image'):
+            image_name = generic_model.image.name
+
+            # Call save_form_data on the OptimizedImageField. The second argument
+            # is None, meaning that no new image is being saved.
+            generic_model.image.field.save_form_data(generic_model, None)
+
+            # The mock_optimize_from_buffer still has not been called
+            self.assertEqual(mock_optimize_from_buffer.call_count, 0)
+            # The model still has the image
+            self.assertEqual(generic_model.image.name, image_name)
+
+        with self.subTest('Has image, and deleting the image'):
+            # Call save_form_data on the OptimizedImageField. The second argument
+            # is False, meaning that we are deleting the image.
+            generic_model.image.field.save_form_data(generic_model, False)
+
+            # The mock_optimize_from_buffer still has not been called
+            self.assertEqual(mock_optimize_from_buffer.call_count, 0)
+            # The model no longer has the image
+            self.assertEqual(generic_model.image.name, '')
+
+        with self.subTest('No image, and not saving an image'):
+            # Call save_form_data on the OptimizedImageField. The second argument
+            # is None, meaning that no new image is being saved.
+            generic_model.image.field.save_form_data(generic_model, None)
+
+            # The mock_optimize_from_buffer still has not been called
+            self.assertEqual(mock_optimize_from_buffer.call_count, 0)
+            # The model still does not have an image
+            self.assertEqual(generic_model.image.name, '')

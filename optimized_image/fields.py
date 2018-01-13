@@ -11,4 +11,4 @@ class OptimizedImageField(ImageField):
         if updating_image:
             from .utils import optimize_from_buffer
             data = optimize_from_buffer(data)
-            super().save_form_data(instance, data)
+        super().save_form_data(instance, data)
