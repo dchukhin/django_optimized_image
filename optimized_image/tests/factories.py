@@ -11,3 +11,12 @@ class GenericModelFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'not_optimized.GenericModel'
+
+
+class BlogPostOrSomethingFactory(factory.django.DjangoModelFactory):
+    title = factory.fuzzy.FuzzyText(length=8)
+    image1 = factory.django.ImageField(filename="image1.png")
+    image2 = factory.django.ImageField(filename="image2.png")
+
+    class Meta:
+        model = 'not_optimized.BlogPostOrSomething'
