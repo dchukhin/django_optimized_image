@@ -1,9 +1,11 @@
 from io import BytesIO
 from PIL import Image
+import os
 import sys
 import tinify
 
 from django.conf import settings
+from django.core.files.base import ContentFile
 
 from .fields import OptimizedImageField
 
@@ -64,6 +66,38 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
                 if image_file.name not in [None, '']:
                     if verbosity == 1:
                         sys.stdout.write('\nImage found. Optimizing.')
+
+                    try:
+                        # Use the OPTIMIZED_IMAGE_METHOD from settings to determine
+                        # which way to optimize the image file.
+                        if settings.OPTIMIZED_IMAGE_METHOD == 'pillow':
+                            # Open the image
+                            input_file = BytesIO(image_file.read())
+                            image = Image.open(input_file)
+                            output_file = BytesIO()
+                            # Find the extension of the file to pass to PIL.Image.save()
+                            if image_file.name.split('.')[-1].lower() != 'jpg':
+                                extension = image_file.name.split('.')[-1].upper()
+                            else:
+                                extension = 'JPEG'
+                            # Optimize the image
+                            image.save(output_file, format=extension, optimize=True)
+                            # Save the image in place of the unoptimized one
+                            content_file = ContentFile(output_file.getvalue())
+                            image_name = os.path.relpath(image_file.name, image_file.field.upload_to)
+                            image_file.save(image_name, content_file)
+                        elif settings.OPTIMIZED_IMAGE_METHOD == 'tinypng':
+                            tinify.key = settings.TINYPNG_KEY
+                            # Use TinyPNG to optimize the file from a buffer
+                            optimized_buffer = tinify.from_buffer(image_file.read()).to_buffer()
+                            # Save the image in place of the unoptimized one
+                            content_file = ContentFile(optimized_buffer)
+                            image_name = os.path.relpath(image_file.name, image_file.field.upload_to)
+                            image_file.save(image_name, content_file)
+                    except:
+                        # If the optimization failed for any reason, write this
+                        # to stdout.
+                        sys.stdout.write('\nOptimization failed for {}.'.format(image_file.name))
 
                     if verbosity == 1:
                         sys.stdout.write('\nOptimized and saved image.')
