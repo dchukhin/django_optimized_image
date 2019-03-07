@@ -5,3 +5,5 @@
 venv
 staticfiles
 .env
+public/
+*.egg-info
