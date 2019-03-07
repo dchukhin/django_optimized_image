@@ -17,6 +17,14 @@ Quick start
         'optimized_image',
     ]
 
+   Optionally, add a setting that lists the file extensions that will be ignored during image optimization (or an empty list to allow all) ::
+
+    # ignore GIFs
+    OPTIMIZED_IMAGE_IGNORE_EXTENSIONS = ['gif']
+
+    # either case is fine; this works too
+    OPTIMIZED_IMAGE_IGNORE_EXTENSIONS = ['GIF']
+
 2. You have the option to use either TinyPNG or Pillow for optimizing images.
    Inform ``optimized_image`` which one you want to use by setting the following::
 
