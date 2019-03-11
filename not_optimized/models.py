@@ -21,9 +21,11 @@ class BlogPostOrSomething(models.Model):
     image14 = OptimizedImageField(blank=True, null=True, upload_to='static/images/')
     image15 = OptimizedImageField(blank=True, null=True, upload_to='static/images/')
     image16 = OptimizedImageField(blank=True, null=True, upload_to='static/images/')
+    not_optimized_image_ignored = models.ImageField(blank=True, null=True, upload_to='static/images')
 
 
 class GenericModel(models.Model):
     title = models.CharField(max_length=255)
     image = OptimizedImageField(blank=True, null=True, upload_to='static/images/')
     not_optimized_image = models.ImageField(blank=True, null=True, upload_to='static/images')
+    not_optimized_image_ignored = models.ImageField(blank=True, null=True, upload_to='static/images')

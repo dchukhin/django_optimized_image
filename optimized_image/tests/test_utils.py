@@ -24,6 +24,9 @@ class TestOptimizeFromBuffer(TestCase):
         mock_obj = Mock()
         mock_obj.name = 'test_image.png'
 
+        ignore_obj = Mock()
+        ignore_obj.name = 'ignore_image.gif'
+
         testing_mode_subtests = (
             # testing_mode, optimized_image_method
             (True, 'pillow'),
@@ -40,19 +43,27 @@ class TestOptimizeFromBuffer(TestCase):
             mock_is_testing_mode.return_value = testing_mode
 
             with self.subTest(testing_mode=testing_mode, optimized_image_method=optimized_image_method):
-                with self.settings(OPTIMIZED_IMAGE_METHOD=optimized_image_method):
+                with self.settings(
+                    OPTIMIZED_IMAGE_METHOD=optimized_image_method,
+                    OPTIMIZED_IMAGE_IGNORE_EXTENSIONS=['gif'],
+                ):
                     optimize_from_buffer(mock_obj)
+                    optimize_from_buffer(ignore_obj)
                     self.assertFalse(mock_tinify.called)
 
         for testing_mode, optimized_image_method in non_testing_mode_subtests:
             with self.subTest(testing_mode=testing_mode, optimized_image_method=optimized_image_method):
-                with self.settings(OPTIMIZED_IMAGE_METHOD=optimized_image_method):
+                with self.settings(
+                    OPTIMIZED_IMAGE_METHOD=optimized_image_method,
+                    OPTIMIZED_IMAGE_IGNORE_EXTENSIONS=['gif'],
+                ):
                     mock_is_testing_mode.return_value = testing_mode
 
                     start_pil_image_call_count = mock_pil_image.open.call_count
                     start_tinify_from_buffer_call_count = mock_tinify.from_buffer.call_count
 
                     optimize_from_buffer(mock_obj)
+                    optimize_from_buffer(ignore_obj)
 
                     if optimized_image_method == 'pillow':
                         expected_pil_calls = start_pil_image_call_count + 1
@@ -76,7 +87,10 @@ class TestOptimizeLegacyImagesInModelFields(TestCase):
         generic_model = factories.GenericModelFactory()
 
         with self.subTest(OPTIMIZED_IMAGE_METHOD='pillow'):
-            with self.settings(OPTIMIZED_IMAGE_METHOD='pillow'):
+            with self.settings(
+                OPTIMIZED_IMAGE_METHOD='pillow',
+                OPTIMIZED_IMAGE_IGNORE_EXTENSIONS=['gif'],
+            ):
                 # So far neither Pillow nor TinyPNG have been called
                 self.assertFalse(mock_pil_image.open.called)
                 self.assertFalse(mock_tinify.from_buffer.called)
@@ -88,7 +102,10 @@ class TestOptimizeLegacyImagesInModelFields(TestCase):
                 self.assertFalse(mock_tinify.from_buffer.called)
 
         with self.subTest(OPTIMIZED_IMAGE_METHOD='tinypng'):
-            with self.settings(OPTIMIZED_IMAGE_METHOD='tinypng'):
+            with self.settings(
+                OPTIMIZED_IMAGE_METHOD='tinypng',
+                OPTIMIZED_IMAGE_IGNORE_EXTENSIONS=['gif'],
+            ):
                 # So far Pillow has been called once (in the other subTest), but
                 # TinyPNG has not been called.
                 self.assertEqual(mock_pil_image.open.call_count, 1)
@@ -104,7 +121,10 @@ class TestOptimizeLegacyImagesInModelFields(TestCase):
     def test_class_optimizes_all_instances(self, mock_pil_image):
         """Calling the funciton with a class optimizes all images for all instance of that class."""
         # We use the Pillow optimization for this test
-        with self.settings(OPTIMIZED_IMAGE_METHOD='pillow'):
+        with self.settings(
+            OPTIMIZED_IMAGE_METHOD='pillow',
+            OPTIMIZED_IMAGE_IGNORE_EXTENSIONS=['gif'],
+        ):
             # Several models that have several image fields each, with images
             blog1 = factories.BlogPostOrSomethingFactory(title='Blog 1')
             blog2 = factories.BlogPostOrSomethingFactory(title='Blog 2')

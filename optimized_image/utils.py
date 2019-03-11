@@ -12,12 +12,24 @@ from .fields import OptimizedImageField
 
 def optimize_from_buffer(data):
     """Optimize an image that has not been saved to a file."""
+    # NOTE: this optional setting defines image file extensions that should
+    # be ignored during optimization. If it is not set or is set to an
+    # empty list, all file types will be optimized.
+    IGNORED_EXTENSIONS = getattr(settings, 'OPTIMIZED_IMAGE_IGNORE_EXTENSIONS', [])
     if not is_testing_mode():
+        base_extension = data.name.split('.')[-1]
+
+        # If this file's extension is in the list of file extensions
+        # that should be ignored, just return the data unmodified,
+        # the same as we do if ``is_testing_mode()`` is True.
+        if base_extension.lower() in [ext.lower() for ext in IGNORED_EXTENSIONS]:
+            return data
+
         if settings.OPTIMIZED_IMAGE_METHOD == 'pillow':
             image = Image.open(data)
             bytes_io = BytesIO()
-            if data.name.split('.')[-1].lower() != 'jpg':
-                extension = data.name.split('.')[-1].upper()
+            if base_extension.lower() != 'jpg':
+                extension = base_extension.upper()
             else:
                 extension = 'JPEG'
             image.save(bytes_io, format=extension, optimize=True)
@@ -43,6 +55,10 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
     and optimizes the images in those fields. Note: there is a 500 image/month
     limit on a free TinyPNG API key, so use this function wisely.
     """
+    # NOTE: this optional setting defines image file extensions that should
+    # be ignored during optimization. If it is not set or is set to an
+    # empty list, all file types will be optimized.
+    IGNORED_EXTENSIONS = getattr(settings, 'OPTIMIZED_IMAGE_IGNORE_EXTENSIONS', [])
     for model in list_of_models:
         if verbosity == 1:
             sys.stdout.write('\nOptimizing for model: {}'.format(model))
@@ -63,6 +79,17 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
 
                 # If the instance's field has an image, optimize it
                 image_file = getattr(model_instance, field_name)
+                image_file_extension = image_file.name.split('.')[-1]
+
+                # If the file extension is in the list of file extensions
+                # that should be ignored for optimization, exit this iteration
+                # of the inner ``for`` loop, skipping the file.
+                if image_file_extension.lower() in [ext.lower() for ext in IGNORED_EXTENSIONS]:
+                    sys.stdout.write(
+                        '\nImage has extension {ext}. Ignoring.'.format(ext=image_file_extension)
+                    )
+                    continue
+
                 if image_file.name not in [None, '']:
                     if verbosity == 1:
                         sys.stdout.write('\nImage found. Optimizing.')
@@ -76,8 +103,8 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
                             image = Image.open(input_file)
                             output_file = BytesIO()
                             # Find the extension of the file to pass to PIL.Image.save()
-                            if image_file.name.split('.')[-1].lower() != 'jpg':
-                                extension = image_file.name.split('.')[-1].upper()
+                            if image_file_extension.lower() != 'jpg':
+                                extension = image_file_extension.upper()
                             else:
                                 extension = 'JPEG'
                             # Optimize the image
