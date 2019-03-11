@@ -1,5 +1,5 @@
 Django==1.11
-psycopg2==2.6.1
+psycopg2==2.7.2
 dj-database-url==0.4.1
 gunicorn==19.6.0
 
