@@ -42,6 +42,20 @@ def optimize_from_buffer(data):
             data.seek(0)
             data.file.write(optimized_buffer)
             data.file.truncate()
+        elif settings.OPTIMIZED_IMAGE_METHOD == 'justtesting':
+            # Make a tiny image and use that instead of the input image.
+            # (justtesting is NOT a publicly allowed value, it's just for internal testing.)
+            bytes_io = BytesIO()
+            Image.new('RGB', (10, 10), "blue").save(bytes_io, format="JPEG")
+            data.seek(0)
+            data.file.write(bytes_io.getvalue())
+            data.file.truncate()
+        # Else - just don't change it
+        else:
+            return data
+
+        # We optimized it - fix the computed size
+        data.size = data.file.tell()
     return data
 
 
@@ -122,6 +136,10 @@ def optimize_legacy_images_in_model_fields(list_of_models, verbosity=0):
                             image_name = os.path.relpath(image_file.name, image_file.field.upload_to)
                             image_file.save(image_name, content_file)
                     except:
+                        if is_testing_mode():
+                            # This shouldn't actually happen, so if testing, let the exception continue
+                            # up the call chain so it makes the test fail.
+                            raise
                         # If the optimization failed for any reason, write this
                         # to stdout.
                         sys.stdout.write('\nOptimization failed for {}.'.format(image_file.name))

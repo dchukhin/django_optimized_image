@@ -5,8 +5,6 @@ django_optimized_image
 django_optimized_image is a simple Django library that allows optimization
 of images by using `TinyPNG <https://tinypng.com/>`_ or `Pillow <pillow.readthedocs.io/>`_.
 
-Detailed documentation is in the "docs" directory.
-
 Quick start
 -----------
 
