@@ -1,9 +1,8 @@
-from factory.fuzzy import FuzzyText
 import io
 from unittest.mock import patch, Mock
 
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
 
 from . import factories
 from ..utils import optimize_from_buffer, optimize_legacy_images_in_model_fields
@@ -11,6 +10,26 @@ from ..utils import optimize_from_buffer, optimize_legacy_images_in_model_fields
 
 class TestOptimizeFromBuffer(TestCase):
     """Test case for the mock_optimize_from_buffer() function."""
+
+    @override_settings(OPTIMIZED_IMAGE_METHOD="justtesting")
+    @patch('optimized_image.utils.is_testing_mode')
+    def test_changing_size(self, mock_is_testing_mode):
+        mock_is_testing_mode.return_value = False
+        TESTFILE = "small_kitten.jpeg"
+
+        data = SimpleUploadedFile(name=TESTFILE, content=open(TESTFILE, "rb").read())
+
+        initial_size = data.size
+        optimize_from_buffer(data)
+        resized_data_size = data.size
+        data.open()
+        actual_final_size = len(data.read())
+        self.assertEqual(actual_final_size, resized_data_size)
+        self.assertLess(
+            actual_final_size, initial_size,
+            msg="Test not valid - image was not reduced"
+        )
+
     @patch('optimized_image.utils.is_testing_mode')
     @patch('optimized_image.utils.Image')
     @patch('optimized_image.utils.tinify')
@@ -85,6 +104,8 @@ class TestOptimizeLegacyImagesInModelFields(TestCase):
     def test_settings(self, mock_tinify, mock_pil_image):
         """The OPTIMIZED_IMAGE_METHOD is used to determine whether Pillow or TinyPNG is used."""
         generic_model = factories.GenericModelFactory()
+
+        mock_tinify.from_buffer.return_value.to_buffer.return_value = b""
 
         with self.subTest(OPTIMIZED_IMAGE_METHOD='pillow'):
             with self.settings(
